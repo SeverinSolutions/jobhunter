@@ -16,13 +16,11 @@ data analytics, and AI features over time.
 
 ## 🛠 Tech Stack
 
-| Layer          | Tech                        |
-|----------------|-----------------------------|
-| **Frontend**   | React with TypeScript |
-| **UI Styling** | Headless components + Tailwind |
-| **Backend**    | ASP.NET Core (planned)      |
-| **Database**   | PostgreSQL (planned)        |
-| **Other Tools**| GitHub, Vite, ESLint, Prettier |
+- **Frontend:** React with TypeScript
+- **UI Styling:** Headless components + Tailwind
+- **Backend:** ASP.NET Core (planned)
+- **Database:** PostgreSQL (planned)
+- **Other Tools:** GitHub, Vite, ESLint, Prettier
 
 ## 🧱 Architecture Plan
 
