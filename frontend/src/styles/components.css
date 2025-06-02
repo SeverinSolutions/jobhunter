@@ -1,0 +1,7 @@
+.sidebar-link {
+  @apply text-white hover:text-blue-300 transition-colors;
+}
+
+.sidebar-link-active {
+  @apply text-blue-400 font-semibold;
+}
