@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AddJobModal from "../components/AddJobModal";
 
 interface Job {
   id: number;
@@ -9,6 +10,7 @@ interface Job {
 }
 
 const SavedJobs = () => {
+  const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState("");
   const [jobs, setJobs] = useState<Job[]>([
     {
@@ -45,11 +47,11 @@ const SavedJobs = () => {
           placeholder="Search jobs..."
           className="flex-1 px-4 py-2 border rounded shadow-sm"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={() => alert("Open modal to add job")}
+          onClick={() => setShowModal(true)}
         >
           Add Job
         </button>
@@ -59,7 +61,7 @@ const SavedJobs = () => {
         {filteredJobs.length === 0 ? (
           <li className="text-gray-500">No saved jobs match your search.</li>
         ) : (
-          filteredJobs.map(job => (
+          filteredJobs.map((job) => (
             <li
               key={job.id}
               className="p-4 bg-white rounded shadow flex justify-between items-center"
@@ -83,6 +85,20 @@ const SavedJobs = () => {
           ))
         )}
       </ul>
+
+      {showModal && (
+        <AddJobModal
+          onClose={() => setShowModal(false)}
+          onAdd={(job) => {
+            const newJob = {
+              id: Date.now(),
+              ...job,
+              dateSaved: new Date().toISOString().split("T")[0],
+            };
+            setJobs([newJob, ...jobs]);
+          }}
+        />
+      )}
     </div>
   );
 };
