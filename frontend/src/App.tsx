@@ -8,9 +8,11 @@ const App = () => {
       <div className="flex">
         <Sidebar />
         <div className="flex-1 bg-gray-100 min-h-screen">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
+          <div className="max-w-4xl mx-auto p-6">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </Router>
