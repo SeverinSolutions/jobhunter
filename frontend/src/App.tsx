@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import SavedJobs from "./pages/SavedJobs";
+import JobDetails from "./pages/JobDetails";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/saved" element={<SavedJobs />} />
+              <Route path="/job/:id" element={<JobDetails />} />
             </Routes>
           </div>
         </div>

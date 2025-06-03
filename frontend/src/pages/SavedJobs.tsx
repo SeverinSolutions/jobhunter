@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AddJobModal from "../components/AddJobModal";
+import { Link } from "react-router-dom";
 
 interface Job {
   id: number;
@@ -66,7 +67,7 @@ const SavedJobs = () => {
               key={job.id}
               className="p-4 bg-white rounded shadow flex justify-between items-center"
             >
-              <div>
+                <Link to={`/job/${job.id}`} className="flex-1">
                 <p className="font-semibold">{job.title}</p>
                 <p className="text-sm text-gray-600">
                   {job.company} — {job.location}
@@ -74,7 +75,7 @@ const SavedJobs = () => {
                 <p className="text-xs text-gray-400">
                   Saved on {job.dateSaved}
                 </p>
-              </div>
+                </Link>
               <button
                 className="text-red-500 hover:underline text-sm"
                 onClick={() => handleDelete(job.id)}
