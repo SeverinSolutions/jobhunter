@@ -15,6 +15,7 @@ interface Job {
   };
   status: string;
   notes: string[];
+  skills: string[];
 }
 
 const mockJobs: Job[] = [
@@ -28,6 +29,7 @@ const mockJobs: Job[] = [
     recruiter: { name: "", email: "", phone: "" },
     status: "Saved",
     notes: [],
+    skills: [],
   },
   {
     id: 2,
@@ -39,6 +41,7 @@ const mockJobs: Job[] = [
     recruiter: { name: "", email: "", phone: "" },
     status: "Saved",
     notes: [],
+    skills: [],
   },
 ];
 
@@ -50,16 +53,27 @@ const JobDetails = () => {
 
   const [description, setDescription] = useState(job?.description || "");
   const [status, setStatus] = useState(job?.status || "Saved");
+
   const [recruiter, setRecruiter] = useState(
     job?.recruiter || { name: "", email: "", phone: "" }
   );
+
   const [notes, setNotes] = useState<string[]>(job?.notes || []);
   const [newNote, setNewNote] = useState("");
+
+  const [skills, setSkills] = useState<string[]>(job?.skills || []);
+  const [newSkill, setNewSkill] = useState("");
 
   const addNote = () => {
     if (!newNote.trim()) return;
     setNotes((prev) => [...prev, `${new Date().toLocaleString()}: ${newNote}`]);
     setNewNote("");
+  };
+
+  const addSkill = () => {
+    if (!newSkill.trim()) return;
+    setSkills((prev) => [...prev, newSkill.trim()]);
+    setNewSkill("");
   };
 
   if (!job) {
