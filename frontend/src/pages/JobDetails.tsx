@@ -64,9 +64,19 @@ const JobDetails = () => {
   const [skills, setSkills] = useState<string[]>(job?.skills || []);
   const [newSkill, setNewSkill] = useState("");
 
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editedNote, setEditedNote] = useState("");
+
   const addNote = () => {
     if (!newNote.trim()) return;
-    setNotes((prev) => [...prev, `${new Date().toLocaleString()}: ${newNote}`]);
+    const timestamp = new Date().toLocaleString("sv-SE", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    setNotes((prev) => [...prev, `${timestamp} - ${newNote}`]);
     setNewNote("");
   };
 
@@ -92,6 +102,26 @@ const JobDetails = () => {
 
   const removeSkill = (index: number) => {
     setSkills((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateNote = () => {
+    if (editIndex === null || !editedNote.trim()) return;
+
+    console.log("A:", editedNote);
+    const updated = [...notes];
+    console.log("B1:", updated)
+    const [timestamp] = updated[editIndex].split(" - ", 2);
+    console.log("B:", updated[editIndex].split(" - ", 2));
+
+    updated[editIndex] = `${timestamp.trim()} - ${editedNote.trim()}`;
+    console.log("C:", updated[editIndex]);
+    setNotes(updated);
+    setEditIndex(null);
+    setEditedNote("");
+  };
+
+  const removeNote = (index: number) => {
+    setNotes((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -150,12 +180,19 @@ const JobDetails = () => {
           ))}
         </div>
 
+        {/** Skill Section */}
         <div className="flex gap-2">
           <input
             className="flex-1 border rounded p-2"
             placeholder="Add a skill..."
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addSkill();
+              }
+            }}
           />
           <button
             onClick={addSkill}
@@ -166,6 +203,7 @@ const JobDetails = () => {
         </div>
       </div>
 
+      {/** Recruiter Section */}
       <div className="grid sm:grid-cols-3 gap-4">
         <div>
           <label className="block font-medium mb-1">Recruiter Name</label>
@@ -199,12 +237,52 @@ const JobDetails = () => {
         </div>
       </div>
 
+      {/** Note Section */}
       <div>
         <h2 className="font-semibold mb-2">Notes</h2>
         <ul className="mb-2 space-y-1 text-sm">
           {notes.map((note, i) => (
-            <li key={i} className="text-gray-700">
-              • {note}
+            <li
+              key={i}
+              className="flex items-center justify-between text-gray-700 bg-gray-100 p-2 rounded"
+            >
+              {editIndex === i ? (
+                <input
+                  className="flex-1 border p-1 rounded mr-2"
+                  value={editedNote}
+                  onChange={(e) => setEditedNote(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") updateNote();
+                  }}
+                />
+              ) : (
+                <span
+                  className="flex-1 cursor-pointer"
+                  onClick={() => {
+                    setEditIndex(i);
+                    setEditedNote(note.split("-")[1]?.trim() || "");
+                  }}
+                >
+                  {note}
+                </span>
+              )}
+
+              <div className="flex gap-1 items-center ml-2">
+                {editIndex === i && (
+                  <button
+                    onClick={updateNote}
+                    className="text-green-600 hover:text-green-800 px-2"
+                  >
+                    ✔
+                  </button>
+                )}
+                <button
+                  onClick={() => removeNote(i)}
+                  className="text-red-600 hover:text-red-800 px-2"
+                >
+                  ×
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -214,6 +292,12 @@ const JobDetails = () => {
             placeholder="Add a note..."
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addNote();
+              }
+            }}
           />
           <button
             onClick={addNote}
