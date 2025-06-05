@@ -28,5 +28,40 @@ public class JobsController : ControllerBase
         _context.SaveChanges();
         return CreatedAtAction(nameof(GetJobs), new { id = job.Id }, job);
     }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateJob(int id, [FromBody] Job updatedJob)
+    {
+        var job = _context.Jobs.Find(id);
+        if (job == null)
+        {
+            return NotFound();
+        }
+
+        job.Title = updatedJob.Title;
+        job.Company = updatedJob.Company;
+        job.Location = updatedJob.Location;
+        job.Url = updatedJob.Url;
+        job.Description = updatedJob.Description;
+        job.Status = updatedJob.Status;
+        job.DateSaved = updatedJob.DateSaved;
+
+        _context.SaveChanges();
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteJob(int id)
+    {
+        var job = _context.Jobs.Find(id);
+        if (job == null)
+        {
+            return NotFound();
+        }
+
+        _context.Jobs.Remove(job);
+        _context.SaveChanges();
+        return NoContent();
+    }
 }
 
