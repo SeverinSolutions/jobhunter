@@ -90,6 +90,10 @@ const JobDetails = () => {
     );
   }
 
+  const removeSkill = (index: number) => {
+    setSkills((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-bold">{job.title}</h1>
@@ -128,13 +132,24 @@ const JobDetails = () => {
 
       <div>
         <h2 className="font-semibold mb-2">Skills</h2>
-        <ul className="mb-2 space-y-1 text-sm">
+        <div className="flex flex-wrap gap-2 mb-2">
           {skills.map((skill, i) => (
-            <li key={i} className="text-gray-700">
-              • {skill}
-            </li>
+            <div
+              key={i}
+              className="flex items-center bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm"
+            >
+              <span>{skill}</span>
+              <button
+                onClick={() => removeSkill(i)}
+                className="ml-2 text-gray-500 hover:text-red-500 focus:outline-none"
+                aria-label={`Remove ${skill}`}
+              >
+                ×
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
+
         <div className="flex gap-2">
           <input
             className="flex-1 border rounded p-2"
