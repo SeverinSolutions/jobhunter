@@ -126,6 +126,31 @@ const JobDetails = () => {
         />
       </div>
 
+      <div>
+        <h2 className="font-semibold mb-2">Skills</h2>
+        <ul className="mb-2 space-y-1 text-sm">
+          {skills.map((skill, i) => (
+            <li key={i} className="text-gray-700">
+              • {skill}
+            </li>
+          ))}
+        </ul>
+        <div className="flex gap-2">
+          <input
+            className="flex-1 border rounded p-2"
+            placeholder="Add a skill..."
+            value={newSkill}
+            onChange={(e) => setNewSkill(e.target.value)}
+          />
+          <button
+            onClick={addSkill}
+            className="px-4 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
       <div className="grid sm:grid-cols-3 gap-4">
         <div>
           <label className="block font-medium mb-1">Recruiter Name</label>
