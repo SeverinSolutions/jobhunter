@@ -1,22 +1,15 @@
 using backend.Data;
-using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-
-Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var username = Environment.GetEnvironmentVariable("DB_USERNAME");
-var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-
-var baseConn = builder.Configuration.GetConnectionString("DefaultConnection");
-var fullConn = $"{baseConn};Username={username};Password={password}";
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(fullConn));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
