@@ -1,3 +1,8 @@
+using DotNetEnv;
+
+var dbusername = Environment.GetEnvironmentVariable("DB_USERNAME");
+var dbpassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
